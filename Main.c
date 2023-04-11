@@ -11,7 +11,6 @@ void eliminarincio();
 void eliminarfinal();
 void eliminarposicion();
 void mostrar();
-void recorrer();
 void buscar();
 void ordas();
 void ordde();
@@ -48,9 +47,8 @@ void menu()
                 "| 5. Eliminar al final                             |\n"
                 "| 6. Eliminar en una posicion                      |\n"
                 "| 7. Mostrar                                       |\n"
-                "| 8. Recorrer                                      |\n"
-                "| 9. Extra                                         |\n"
-                "| 10. Salir                                        |\n"
+                "| 8. Extra                                         |\n"
+                "| 9. Salir                                         |\n"
                 "|__________________________________________________|\n");
         printf(" Ingrese una opcion: "); scanf("%d", &opcion); //lectura de la opcion
         //condicion para llamar a las funciones
@@ -63,9 +61,8 @@ void menu()
             case 5: //eliminarfinal(); break;
             case 6: //eliminarposicion(); break;
             case 7: mostrar(); break;
-            case 8: //recorrer(); break;
-            case 9: menu2(); break;
-            case 10: printf("Saliendo del programa..."); break;
+            case 8: menu2(); break;
+            case 9: printf("Saliendo del programa..."); break;
             //opcion por defecto en caso de que el usuario ingrese una opcion incorrecta
             default: printf("Opcion incorrecta, intente de nuevo\n"); 
         }
@@ -127,7 +124,14 @@ void insertarposicion()
     {
         insertarincio();
     }//condicion si la posicion es igual al numero de nodos se llama a la funcion insertar al final
-    else if(posicion == numeroNodos())
+    int contador = 0;
+    NODO *actual = (NODO*)malloc(sizeof(NODO));
+    while (actual != NULL)
+    {
+        contador++;
+        actual = actual->siguiente;
+    }
+    if(posicion == contador)
     {
         insertarfinal();
     }
@@ -182,7 +186,6 @@ void mostrar()
 void menu2()
 {
     printf(" __________________________________________________ \n"
-            "| 1. Buscar                                        |\n"
             "| 2. Ordenar de menor a mayor                      |\n"
             "| 3. Ordenar de mayor a menor                      |\n"
             "| 4. Eliminar dato                                 |\n"
@@ -198,5 +201,72 @@ void menu2()
         case 4: eliminardat(); break;
         case 5: printf("Regresando a menu principal..."); break;
         default: printf("Opcion incorrecta, intente de nuevo\n");
+    }
+}
+
+//Funcion para buscar un dato
+void buscar()
+{
+    int dato;
+    printf(" Ingrese el dato a buscar: "); scanf("%d", &dato);
+    NODO *actual = (NODO*)malloc(sizeof(NODO));
+    actual = cabeza;
+    int contador = 0;
+    while(actual != NULL)
+    {
+        if(actual->dato == dato)
+        {
+            printf(" El dato %d se encuentra en la posicion %d", dato, contador);
+        }
+        contador++;
+        actual = actual->siguiente;
+    }
+}
+
+//Funcion para ordenar de menor a mayor
+void ordas()
+{
+    NODO *actual = (NODO*)malloc(sizeof(NODO));
+    NODO *siguiente = (NODO*)malloc(sizeof(NODO));
+    int temp;
+    actual = cabeza;
+    while(actual->siguiente != NULL)
+    {
+        siguiente = actual->siguiente;
+        while(siguiente != NULL)
+        {
+            if(actual->dato > siguiente->dato)
+            {
+                temp = actual->dato;
+                actual->dato = siguiente->dato;
+                siguiente->dato = temp;
+            }
+            siguiente = siguiente->siguiente;
+        }
+        actual = actual->siguiente;
+    }
+}
+
+//Funcion para ordenar de mayor a menor
+void ordde()
+{
+    NODO *actual = (NODO*)malloc(sizeof(NODO));
+    NODO *siguiente = (NODO*)malloc(sizeof(NODO));
+    int temp;
+    actual = cabeza;
+    while(actual->siguiente != NULL)
+    {
+        siguiente = actual->siguiente;
+        while(siguiente != NULL)
+        {
+            if(actual->dato < siguiente->dato)
+            {
+                temp = actual->dato;
+                actual->dato = siguiente->dato;
+                siguiente->dato = temp;
+            }
+            siguiente = siguiente->siguiente;
+        }
+        actual = actual->siguiente;
     }
 }
